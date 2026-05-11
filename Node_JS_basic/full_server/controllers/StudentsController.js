@@ -6,14 +6,16 @@ class StudentsController {
 
     readDatabase(databasePath)
       .then((fields) => {
-        const lines = ['This is the list of our students'];
+        const output = [];
+        output.push('This is the list of our students');
+
         const sortedFields = Object.keys(fields).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
-        sortedFields.forEach((field) => {
-          lines.push(`Number of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`);
-        });
+        for (const field of sortedFields) {
+          output.push(`Number of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`);
+        }
 
-        res.status(200).send(lines.join('\n'));
+        res.status(200).send(output.join('\n'));
       })
       .catch(() => {
         res.status(500).send('Cannot load the database');
