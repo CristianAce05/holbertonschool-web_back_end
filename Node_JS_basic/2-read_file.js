@@ -19,12 +19,16 @@ function countStudents(path) {
   const fields = {};
   
   students.forEach((line) => {
-    const [firstname, , , field] = line.split(',');
-    if (firstname && field) {
-      if (!fields[field]) {
-        fields[field] = [];
+    const parts = line.split(',');
+    if (parts.length === 4) {
+      const firstname = parts[0].trim();
+      const field = parts[3].trim();
+      if (firstname && field) {
+        if (!fields[field]) {
+          fields[field] = [];
+        }
+        fields[field].push(firstname);
       }
-      fields[field].push(firstname);
     }
   });
   
