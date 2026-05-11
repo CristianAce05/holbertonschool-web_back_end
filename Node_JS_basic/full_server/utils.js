@@ -4,10 +4,7 @@ const readDatabase = (filePath) => new Promise((resolve, reject) => {
   fs.readFile(filePath, 'utf-8', (err, data) => {
     if (err) {
       reject(new Error('Cannot load the database'));
-      return;
-    }
-
-    try {
+    } else {
       const lines = data.trim().split('\n');
       const students = lines.slice(1).filter((line) => line.trim() !== '');
 
@@ -23,8 +20,6 @@ const readDatabase = (filePath) => new Promise((resolve, reject) => {
       });
 
       resolve(fields);
-    } catch (error) {
-      reject(new Error('Cannot load the database'));
     }
   });
 });

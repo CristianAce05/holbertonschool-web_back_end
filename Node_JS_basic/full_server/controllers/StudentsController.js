@@ -7,7 +7,6 @@ class StudentsController {
     readDatabase(databasePath)
       .then((fields) => {
         const lines = ['This is the list of our students'];
-        
         const sortedFields = Object.keys(fields).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
         sortedFields.forEach((field) => {
@@ -23,7 +22,7 @@ class StudentsController {
 
   static getAllStudentsByMajor(req, res) {
     const { major } = req.params;
-    
+
     if (major !== 'CS' && major !== 'SWE') {
       res.status(500).send('Major parameter must be CS or SWE');
       return;
