@@ -12,7 +12,8 @@ function countStudents(path) {
       const lines = data.trim().split('\n');
       const students = lines.slice(1).filter((line) => line.trim() !== '');
 
-      let output = `Number of students: ${students.length}\n`;
+      const result = [];
+      result.push(`Number of students: ${students.length}`);
 
       const fields = {};
       students.forEach((line) => {
@@ -25,11 +26,11 @@ function countStudents(path) {
 
       for (const field in fields) {
         if (Object.prototype.hasOwnProperty.call(fields, field)) {
-          output += `Number of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}\n`;
+          result.push(`Number of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`);
         }
       }
 
-      resolve(output.trim());
+      resolve(result.join('\n'));
     });
   });
 }
@@ -42,17 +43,13 @@ const app = http.createServer((req, res) => {
     res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
     res.write('This is the list of our students\n');
-    const databasePath = process.argv[2];
-    
-    countStudents(databasePath)
-      .then((output) => {
-        res.end(output);
+    countStudents(process.argv[2])
+      .then((data) => {
+        res.end(data);
       })
-      .catch((error) => {
-        res.end(error.message);
+      .catch(() => {
+        res.end('Cannot load the database');
       });
-  } else {
-    res.end('Hello Holberton School!');
   }
 });
 
